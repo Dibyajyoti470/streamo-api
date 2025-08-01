@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { CertificationService } from './certification.service';
 import { CreateCertificationDto } from './dto/create-certification.dto';
 import { UpdateCertificationDto } from './dto/update-certification.dto';
+import { Certification } from './entities/certification.entity';
 
 @Controller('certification')
 export class CertificationController {
   constructor(private readonly certificationService: CertificationService) {}
 
   @Post()
-  create(@Body() createCertificationDto: CreateCertificationDto) {
-    return this.certificationService.create(createCertificationDto);
+  @HttpCode(HttpStatus.CREATED)
+  createCertification(
+    @Body() createCertificationDto: CreateCertificationDto,
+  ): Promise<Certification> {
+    return this.certificationService.createCertification(
+      createCertificationDto,
+    );
   }
 
   @Get()
-  findAll() {
-    return this.certificationService.findAll();
+  @HttpCode(HttpStatus.OK)
+  findAllCertifications(): Promise<Certification[]> {
+    return this.certificationService.findAllCertifications();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.certificationService.findOne(+id);
+  @HttpCode(HttpStatus.OK)
+  findCertificationById(@Param('id') id: string): Promise<Certification> {
+    return this.certificationService.findCertificationById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCertificationDto: UpdateCertificationDto) {
-    return this.certificationService.update(+id, updateCertificationDto);
+  @HttpCode(HttpStatus.OK)
+  updateCertification(
+    @Param('id') id: number,
+    @Body() updateCertificationDto: UpdateCertificationDto,
+  ): Promise<void> {
+    return this.certificationService.updateCertification(
+      id,
+      updateCertificationDto,
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.certificationService.remove(+id);
+  @HttpCode(HttpStatus.OK)
+  deleteCertification(@Param('id') id: number): Promise<void> {
+    return this.certificationService.deleteCertification(id);
   }
 }
