@@ -28,7 +28,7 @@ export class Certification {
 
   @ManyToOne(() => Region, (region) => region.certifications, {
     nullable: false,
-    eager: true,
+    eager: false,
   })
   @JoinColumn({ name: 'region_id' })
   region: Region;

@@ -32,22 +32,22 @@ export class RegionController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findRegionById(@Param('id') id: number): Promise<Region> {
-    return this.regionService.findOne(id);
+  findRegionById(@Param('id') id: string): Promise<Region> {
+    return this.regionService.findOne(+id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   updateRegion(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateRegionDto: UpdateRegionDto,
   ): Promise<void> {
-    return this.regionService.update(id, updateRegionDto);
+    return this.regionService.update(+id, updateRegionDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  deleteRegion(@Param('id') id: number): Promise<void> {
-    return this.regionService.remove(id);
+  deleteRegion(@Param('id') id: string): Promise<void> {
+    return this.regionService.remove(+id);
   }
 }
