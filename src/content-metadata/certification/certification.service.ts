@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Certification } from './entities/certification.entity';
 import { Repository } from 'typeorm';
 import { Region } from '../region/entities/region.entity';
+import { BulkCreateCertificationsDto } from './dto/bulk-create-certifications.dto';
 
 @Injectable()
 export class CertificationService {
@@ -39,12 +40,38 @@ export class CertificationService {
     return await this.certificationRepository.save(newCert);
   }
 
+  async createCertificationsInBulk(
+    bulkCreateCertificationsDto: BulkCreateCertificationsDto,
+  ): Promise<void> {
+    const certifications = bulkCreateCertificationsDto.certifications.map(
+      (cert) => ({
+        code: cert.code,
+        name: cert.name,
+        ageLimit: cert.ageLimit,
+        isActive: cert.isActive ?? true,
+        region: { id: cert.regionId },
+      }),
+    );
+
+    await this.certificationRepository
+      .createQueryBuilder()
+      .insert()
+      .into(Certification)
+      .values(certifications)
+      .orIgnore()
+      .execute();
+  }
+
   findAllCertifications(): Promise<Certification[]> {
-    return this.certificationRepository.find({ order: { code: 'asc' } });
+    return this.certificationRepository.find({
+      relations: ['region'],
+      order: { code: 'asc' },
+    });
   }
 
   async findCertificationById(id: number): Promise<Certification> {
     const certification = await this.certificationRepository.findOne({
+      relations: ['region'],
       where: { id },
     });
 

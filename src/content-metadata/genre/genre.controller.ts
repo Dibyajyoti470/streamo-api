@@ -32,22 +32,22 @@ export class GenreController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findGenreById(@Param('id') id: number): Promise<Genre> {
-    return this.genreService.findOne(id);
+  findGenreById(@Param('id') id: string): Promise<Genre> {
+    return this.genreService.findOne(+id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   updateGenre(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateGenreDto: UpdateGenreDto,
   ): Promise<void> {
-    return this.genreService.update(id, updateGenreDto);
+    return this.genreService.update(+id, updateGenreDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  deleteGenre(@Param('id') id: number): Promise<void> {
-    return this.genreService.remove(id);
+  deleteGenre(@Param('id') id: string): Promise<void> {
+    return this.genreService.remove(+id);
   }
 }

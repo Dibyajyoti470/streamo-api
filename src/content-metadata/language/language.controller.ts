@@ -32,22 +32,22 @@ export class LanguageController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findGenreById(@Param('id') id: number): Promise<Language> {
-    return this.languageService.findOne(id);
+  findGenreById(@Param('id') id: string): Promise<Language> {
+    return this.languageService.findOne(+id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   updateGenre(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateGenreDto: UpdateLanguageDto,
   ): Promise<void> {
-    return this.languageService.update(id, updateGenreDto);
+    return this.languageService.update(+id, updateGenreDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  deleteGenre(@Param('id') id: number): Promise<void> {
-    return this.languageService.remove(id);
+  deleteGenre(@Param('id') id: string): Promise<void> {
+    return this.languageService.remove(+id);
   }
 }
