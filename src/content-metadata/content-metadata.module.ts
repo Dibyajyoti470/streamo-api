@@ -4,6 +4,7 @@ import { LanguageModule } from './language/language.module';
 import { CertificationModule } from './certification/certification.module';
 import { ImageModule } from './image/image.module';
 import { RegionModule } from './region/region.module';
+import { ContentModule } from './content/content.module';
 
 @Module({
   controllers: [],
@@ -14,6 +15,7 @@ import { RegionModule } from './region/region.module';
     CertificationModule,
     ImageModule,
     RegionModule,
+    ContentModule,
   ],
 })
 export class ContentMetadataModule {}
