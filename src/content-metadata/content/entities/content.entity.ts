@@ -70,9 +70,6 @@ export class Content {
   @Column({ name: 'is_featured', default: false })
   isFeatured: boolean;
 
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean;
-
   @ManyToOne(() => Language, { nullable: false })
   @JoinColumn({ name: 'original_language_id' })
   originalLanguage: Language;
@@ -107,6 +104,15 @@ export class Content {
 
   @OneToMany(() => Season, (season) => season.content, { cascade: true })
   seasons: Season[];
+
+  @Column({ name: 'is_active', default: true })
+  isActive: boolean;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }
 
 @Entity()
@@ -149,10 +155,10 @@ export class Season {
   @Column({ name: 'is_active', default: true })
   isActive: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }
 
@@ -183,16 +189,16 @@ export class Episode {
   @Column({ type: 'enum', enum: ContentStatus, default: ContentStatus.DRAFT })
   status: ContentStatus;
 
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @ManyToOne(() => Season, (season) => season.episodes, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'season_id' })
   season: Season;
+
+  @Column({ name: 'is_active', default: true })
+  isActive: boolean;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }
